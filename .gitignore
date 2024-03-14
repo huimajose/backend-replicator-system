@@ -1,0 +1,16 @@
+# Arquivos de compilação
+/dist
+/out
+
+# Arquivos de configuração locais
+/.env
+/.env.*
+
+# Arquivos de log
+*.log
+
+# Diretório node_modules
+/node_modules
+
+# Arquivos temporários
+.tmp
