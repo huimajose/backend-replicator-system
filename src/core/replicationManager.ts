@@ -5,25 +5,19 @@
  * 
  * Data: 14-03-2024
  */
-
 import { MongoClient, MongoClientOptions } from "mongodb";
+import { ReplicaMember } from "./interface/ReplicaMember";
 
 // URL de conexão com o conjunto de réplicas MongoDB
 const url = 'mongodb://localhost:27017,localhost:27018,localhost:27019/?replicaSet=myReplicaSet';
-
-// Opções do cliente MongoDB
-const options: MongoClientOptions = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-};
 
 /**
  * Obtém uma lista de servidores disponíveis no conjunto de réplicas.
  * 
  * @returns Uma promessa que resolve em uma matriz de membros disponíveis.
  */
-async function getAvailableServers(): Promise<any[]> {
-    const client = await MongoClient.connect(url, options);
+async function getAvailableServers(): Promise<ReplicaMember[]> {
+    const client = await MongoClient.connect(url);
     console.log('Conexão bem-sucedida com o servidor!');
 
     try {
@@ -33,7 +27,7 @@ async function getAvailableServers(): Promise<any[]> {
         const members = replicaSetStatus.members;
 
         // Filtrando os membros disponíveis
-        const availableMembers = members.filter(member => member.health === 1);
+        const availableMembers = members.filter((member: ReplicaMember) => member.health === 1);
         return availableMembers;
         
     } catch (error) {
